@@ -1,4 +1,4 @@
-package files;
+package config;
 
 import org.postgresql.ds.PGPoolingDataSource;
 
@@ -15,8 +15,8 @@ public class AppDataSource {
         dataSource = new PGPoolingDataSource();
         dataSource.setDatabaseName("postgres");
         dataSource.setUser("postgres");
-        //dataSource.setPassword(HOME_PW);
-        dataSource.setPassword(OFFICE_PW);
+        dataSource.setPassword(HOME_PW);
+//        dataSource.setPassword(OFFICE_PW);
         dataSource.setServerName("localhost");
     }
 

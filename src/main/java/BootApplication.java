@@ -1,6 +1,5 @@
-package files;
-
 import com.google.gson.Gson;
+import config.AppDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.springframework.boot.SpringApplication;
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+
 @Controller
 @EnableAutoConfiguration
-public class IndexController {
+public class BootApplication {
 
     static QueryRunner queryRunner = new QueryRunner();
 
@@ -34,6 +34,6 @@ public class IndexController {
 
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(IndexController.class, args);
+        SpringApplication.run(BootApplication.class, args);
     }
 }
