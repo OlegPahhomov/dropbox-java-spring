@@ -48,6 +48,19 @@ public class GreetingController {
         return new HttpEntity<>(picture, headers);
     }
 
+
+    /*try {
+        sql = "SELECT id FROM tableNmae WHERE column_name ='"+ coulmn value+ "'";
+        id= jdbcTemplate.queryForObject(sql, Long.class);
+    }
+    catch (EmptyResultDataAccessException e) {
+        if(log.isDebugEnabled()){
+            log.debug(e);
+        }
+        return null
+    }*/
+
+
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World")
                              String name) {
