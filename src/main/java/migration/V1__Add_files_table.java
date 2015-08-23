@@ -1,3 +1,4 @@
+/*
 package migration;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -17,4 +18,4 @@ public class V1__Add_files_table implements JdbcMigration {
                         ");"
         );
     }
-}
+}*/

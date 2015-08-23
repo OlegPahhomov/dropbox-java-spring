@@ -25,6 +25,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
@@ -58,11 +62,11 @@
         </dependency>
 
         <!-- DB migrations -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>3.2.1</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Testing -->
         <dependency>
@@ -84,20 +88,32 @@
 
     <build>
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>org.flywaydb</groupId>-->
+                <!--<artifactId>flyway-maven-plugin</artifactId>-->
+                <!--<version>3.2.1</version>-->
+                <!--<configuration>-->
+                    <!--<driver>org.postgresql.Driver</driver>-->
+                    <!--<url>jdbc:postgresql://localhost:5432</url>-->
+                    <!--<user>postgres</user>-->
+                    <!--<password>${postgres.password.home}</password>-->
+                    <!--&lt;!&ndash;<password>${postgres.password.office}</password>&ndash;&gt;-->
+                    <!--<schemas>-->
+                        <!--<schema>public</schema>-->
+                    <!--</schemas>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>3.2.1</version>
-                <configuration>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432</url>
-                    <user>postgres</user>
-                    <password>${postgres.password.home}</password>
-                    <!--<password>${postgres.password.office}</password>-->
-                    <schemas>
-                        <schema>public</schema>
-                    </schemas>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.5.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

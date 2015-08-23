@@ -1,3 +1,4 @@
+/*
 package migration;
 
 import files.util.FileResizer;
@@ -47,4 +48,4 @@ public class V2__Insert_files implements JdbcMigration {
         ps.setInt(4, img.getHeight());
         ps.executeUpdate();
     }
-}
+}*/
