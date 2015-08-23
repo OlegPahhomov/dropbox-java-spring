@@ -1,5 +1,4 @@
-/*
-package migration;
+package db.migration;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
@@ -18,4 +17,4 @@ public class V1__Add_files_table implements JdbcMigration {
                         ");"
         );
     }
-}*/
+}

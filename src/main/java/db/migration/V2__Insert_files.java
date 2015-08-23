@@ -1,5 +1,4 @@
-/*
-package migration;
+package db.migration;
 
 import files.util.FileResizer;
 import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
@@ -48,4 +47,4 @@ public class V2__Insert_files implements JdbcMigration {
         ps.setInt(4, img.getHeight());
         ps.executeUpdate();
     }
-}*/
+}

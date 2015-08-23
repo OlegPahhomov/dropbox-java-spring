@@ -44,13 +44,6 @@ public class FileController {
         return FileReader.getPicture(request);
     }
 
-    /**
-     * keep request, response input, so it's substitutable with lambda in Application.java
-     */
-    public static Object getPictures(Request request, Response response) throws SQLException {
-        return FileReader.getPictures();
-    }
-
     private static void setRequestMultiPartFile(Request request) {
         request.raw().setAttribute("org.eclipse.multipartConfig", new MultipartConfigElement("/tmp"));
     }

@@ -1,4 +1,4 @@
-package hello;
+package controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +20,7 @@ public class Application {
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource datasource){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(datasource);
-        return jdbcTemplate;
+        return new JdbcTemplate(datasource);
     }
 
     public static void main(String[] args) {

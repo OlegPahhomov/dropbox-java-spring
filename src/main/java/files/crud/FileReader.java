@@ -21,11 +21,6 @@ public class FileReader {
 
     static QueryRunner queryRunner = new QueryRunner();
 
-    public static Object getPictures() throws SQLException {
-        try (Connection connection = AppDataSource.getConnection()) {
-            return queryRunner.query(connection, "SELECT *, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE", new MapListHandler());
-        }
-    }
 
     public static Object getPicture(Request request) throws SQLException {
         Long id = Long.valueOf(request.params(":id"));
