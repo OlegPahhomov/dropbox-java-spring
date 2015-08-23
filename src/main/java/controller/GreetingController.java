@@ -34,26 +34,18 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "/picture/{id}")
-    public HttpEntity<byte[]> getPicture(@PathVariable(value = "id") String idString) {
+    public HttpEntity<?> getPicture(@PathVariable(value = "id") String idString) {
         //todo validation
-        //response.type("image/jpeg");
         Long id = Long.valueOf(idString);
-        byte[] picture = (byte[]) jdbcTemplate.queryForObject("SELECT content FROM FILE WHERE ID=?", new Object[]{id}, Object.class);
 
-        /*byte[] picture = (byte[]) jdbcTemplate
-                .query("SELECT content FROM FILE WHERE ID=?", new Object[]{id},
-                        rs -> {
-                            rs.next();
-                            return (byte[]) rs.getObject(1);
-                        });*/
+        byte[] picture = jdbcTemplate.query("SELECT content FROM FILE WHERE ID=?", new Object[]{id},
+                        rs -> rs.next() ? (byte[]) rs.getObject(1) : null);
+        if (picture == null) return new HttpEntity<>("No picture found");
 
-        if (picture.length != 0) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); //or what ever type it is
-            headers.setContentLength(picture.length);
-            return new HttpEntity<>(picture, headers);
-        }
-        return null;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG); //or what ever type it is
+        headers.setContentLength(picture.length);
+        return new HttpEntity<>(picture, headers);
     }
 
     @RequestMapping("/greeting")
