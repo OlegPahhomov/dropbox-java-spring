@@ -1,16 +1,16 @@
 package db.migration;
 
 import application.service.FileResizer;
-import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
+import org.apache.commons.io.IOUtils;
+import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class V2__Insert_files implements JdbcMigration {
+public class V2__Insert_files implements SpringJdbcMigration {
 
     public static final String CUTE_KITTENS = "src/main/resources/db/pics/Cute-Kittens.jpg";
     public static final String TERMINATOR = "src/main/resources/db/pics/Terminator.jpeg";
@@ -18,33 +18,29 @@ public class V2__Insert_files implements JdbcMigration {
     public static final String DRAKENSANG = "src/main/resources/db/pics/Drakensang.jpg";
 
 
-    @Override
-    public void migrate(Connection connection) throws Exception {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO FILE(name, content, image_width, image_height) VALUES (?, ?, ?, ?)")) {
-            insertToDb(ps, CUTE_KITTENS);
-            insertToDb(ps, TERMINATOR);
-            insertToDb(ps, DRAKENSANG);
-            insertToDb(ps, HOME);
-        }
+    public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
+        insertToDb(jdbcTemplate, CUTE_KITTENS);
+        insertToDb(jdbcTemplate, TERMINATOR);
+        insertToDb(jdbcTemplate, DRAKENSANG);
+        insertToDb(jdbcTemplate, HOME);
     }
 
-    private void insertToDb(PreparedStatement ps, String filename) throws IOException, SQLException {
+    private void insertToDb(JdbcTemplate jdbcTemplate, String filename) throws IOException, SQLException {
         File file = new File(filename);
         BufferedImage img = ImageIO.read(file);
         if (FileResizer.needsResize(img)) {
             BufferedImage resizedImage = FileResizer.dynamicResize(img);
             ByteArrayOutputStream os = FileResizer.getByteArrayOutputStream(resizedImage);
-            fillPsAndExecute(ps, file.getName(), resizedImage, new ByteArrayInputStream(os.toByteArray()), os.size());
+            fillPsAndExecute(jdbcTemplate, file.getName(), resizedImage, os.toByteArray());
         } else {
-            fillPsAndExecute(ps, file.getName(), img, new FileInputStream(file), (int) file.length());
+            byte[] bytes = IOUtils.toByteArray(new FileInputStream(file));
+            fillPsAndExecute(jdbcTemplate, file.getName(), img, bytes);
         }
     }
 
-    private void fillPsAndExecute(PreparedStatement ps, String fileName, BufferedImage img, InputStream inputStream, int size) throws SQLException {
-        ps.setString(1, fileName);
-        ps.setBinaryStream(2, inputStream, size);
-        ps.setInt(3, img.getWidth());
-        ps.setInt(4, img.getHeight());
-        ps.executeUpdate();
+    private void fillPsAndExecute(JdbcTemplate jdbcTemplate, String fileName, BufferedImage img, byte[] content) throws SQLException {
+        jdbcTemplate.update("INSERT INTO FILE(name, content, image_width, image_height) VALUES (?, ?, ?, ?)",
+                fileName, content, img.getWidth(), img.getHeight());
     }
+
 }

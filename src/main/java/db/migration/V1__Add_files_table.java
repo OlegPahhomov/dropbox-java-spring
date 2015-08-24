@@ -1,14 +1,11 @@
 package db.migration;
 
-import org.apache.commons.dbutils.QueryRunner;
-import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
+import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.Connection;
-
-public class V1__Add_files_table implements JdbcMigration {
-    public void migrate(Connection connection) throws Exception {
-        new QueryRunner().update(connection,
-                "CREATE TABLE file (\n" +
+public class V1__Add_files_table implements SpringJdbcMigration {
+    public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
+        jdbcTemplate.update("CREATE TABLE file (\n" +
                         "  id      BIGSERIAL PRIMARY KEY                  NOT NULL,\n" +
                         "  name    TEXT CHECK (NAME <> '')                NOT NULL,\n" +
                         "  content BYTEA                                  NOT NULL,\n" +
@@ -17,4 +14,5 @@ public class V1__Add_files_table implements JdbcMigration {
                         ");"
         );
     }
+
 }
