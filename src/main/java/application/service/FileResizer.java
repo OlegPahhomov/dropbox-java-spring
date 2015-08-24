@@ -16,7 +16,7 @@ public class FileResizer {
         return needsResize(image.getWidth(), image.getHeight());
     }
 
-    private static boolean needsResize(int width, int height) {
+    static boolean needsResize(int width, int height) {
         return width > WIDTH_MAX || height > HEIGHT_MAX;
     }
 
@@ -48,15 +48,13 @@ public class FileResizer {
         return os;
     }
 
-    private static double maxResizePercent(int width, int height) {
+    static double maxResizePercent(int width, int height) {
         return 1. - getNeededPercentChange(width, height);
     }
 
     private static double getNeededPercentChange(int width, int height) {
-        int heightOver = height - HEIGHT_MAX;
-        int widthOver = width - WIDTH_MAX;
-        double heightOverPercent = (double) heightOver / (heightOver + HEIGHT_MAX);
-        double widthOverPercent = (double) widthOver / (widthOver + WIDTH_MAX);
+        double heightOverPercent = (double) (height - HEIGHT_MAX) / (height);
+        double widthOverPercent = (double) (width - WIDTH_MAX) / (width);
         if (heightOverPercent > widthOverPercent) return heightOverPercent;
         return widthOverPercent;
     }
