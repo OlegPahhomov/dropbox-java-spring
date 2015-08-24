@@ -1,4 +1,4 @@
-package files.util;
+package application.service;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

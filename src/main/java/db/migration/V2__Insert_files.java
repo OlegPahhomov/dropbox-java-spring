@@ -1,6 +1,6 @@
 package db.migration;
 
-import files.util.FileResizer;
+import application.service.FileResizer;
 import org.flywaydb.core.api.migration.jdbc.JdbcMigration;
 
 import javax.imageio.ImageIO;
