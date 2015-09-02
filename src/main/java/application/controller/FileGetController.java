@@ -23,10 +23,10 @@ public class FileGetController {
 
     @RequestMapping("/files")
     public List<Map<String, Object>> getFiles() {
-        return jdbcTemplate.queryForList("SELECT *, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE");
+        return jdbcTemplate.queryForList("SELECT ID, NAME, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE");
     }
 
-    @RequestMapping(value = "/picture/{id}")
+    @RequestMapping(value = {"/picture/{id}.jpg", "picture/{id}"})
     public HttpEntity<?> getPicture(@PathVariable(value = "id") String idString) {
         if (Validator.invalidGetById(idString)) return new HttpEntity<>("vale id");
         byte[] picture = getPictureContentBy(Long.valueOf(idString));
