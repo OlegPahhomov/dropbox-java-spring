@@ -26,7 +26,7 @@ public class FileGetController {
         return jdbcTemplate.queryForList("SELECT ID, NAME, IMAGE_WIDTH::float / IMAGE_HEIGHT AS RATIO FROM FILE");
     }
 
-    @RequestMapping(value = {"/picture/{id}.jpg", "picture/{id}"})
+    @RequestMapping(value = { "picture/{id}"})
     public HttpEntity<?> getPicture(@PathVariable(value = "id") String idString) {
         if (Validator.invalidGetById(idString)) return new HttpEntity<>("vale id");
         byte[] picture = getPictureContentBy(Long.valueOf(idString));

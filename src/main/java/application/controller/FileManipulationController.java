@@ -3,6 +3,7 @@ package application.controller;
 import application.service.FileResizer;
 import application.service.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,21 +21,21 @@ public class FileManipulationController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    @RequestMapping(value = "/remove/{id}", method = POST)
+    @RequestMapping(value = "/remove/{id}", method = POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String removeFiles(@PathVariable(value = "id") String idString) {
         if (Validator.invalidDelete(idString)) return "failure";
         Long id = Long.valueOf(idString);
         jdbcTemplate.update("DELETE FROM FILE WHERE ID=?", id);
-        return "success";
+        return "";
     }
 
-    @RequestMapping(value = "/add", method = POST)
+    @RequestMapping(value = "/add", method = POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String handleFileUpload(@RequestParam("file") MultipartFile[] files) throws IOException, SQLException {
-        if (Validator.invalidInsert(files)) return "failure";
+        if (Validator.invalidInsert(files)) return "";
         for (MultipartFile file : files) {
             saveOneFile(file);
         }
-        return "success";
+        return "";
     }
 
     private void saveOneFile(MultipartFile file) throws IOException {
