@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+mmmmmmaaarjam'gi
+
+
+<div ng-repeat="picture in vm.pictures">
+    <div ng-class="picture.ratioClass">
+        <a rel="picture_group"
+           title="{{picture.name}}"
+           ng-href="{{picture.urlLink}}"
+           fancyboxable="picture">
+            <img alt="" ng-src="{{picture.urlLink}}">
+        </a>
+
+        <form ng-submit="vm.deletePicture(picture.id)">
+            <button type="submit" class="close" title="Delete file">&times;</button>
+        </form>
+    </div>
+</div>
+
+<div class="upload-block">
+    <div class="upload-block__item upload-block__item--big">
+        <input type="file"
+               file-model="myFile"
+               class="inherit-width upload-item-input"
+               multiple
+               accept="image/*"
+               required
+               style="height:100%; width:100%"/>
+    </div>
+    <div class="upload-block__item">
+        <input type="button" ng-click="vm.uploadFile()" class="inherit-width" value="Add file">
+    </div>
+    <div class="upload-block__item upload-block__item--big upload-block__note">
+        Big images will be resized proportionally to 1600px width or 900px height
+    </div>
+    <div class="upload-block__item">
+    </div>
+</div>
+</body>
+</html>
